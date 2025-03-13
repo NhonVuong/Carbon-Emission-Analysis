@@ -62,3 +62,147 @@ SELECT * FROM countries LIMIT 3
 | 2  | Belgium      | 
 | 3  | Brazil       | 
 
+##### 1. Which products contribute the most to carbon emissions?
+
+```
+SELECT product_name, 
+       ROUND(AVG(carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+FROM product_emissions
+GROUP BY product_name
+ORDER BY avg_carbon_footprint_pcf DESC
+LIMIT 10;
+```
+
+| product_name                                                                                                                       | avg_carbon_footprint_pcf | 
+| ---------------------------------------------------------------------------------------------------------------------------------: | -------------------------: | 
+| Wind Turbine G128 5 Megawats                                                                                                       | 3718044.00                 | 
+| Wind Turbine G132 5 Megawats                                                                                                       | 3276187.00                 | 
+| Wind Turbine G114 2 Megawats                                                                                                       | 1532608.00                 | 
+| Wind Turbine G90 2 Megawats                                                                                                        | 1251625.00                 | 
+| Land Cruiser Prado. FJ Cruiser. Dyna trucks. Toyoace.IMV def unit.                                                                 | 191687.00                  | 
+| Retaining wall structure with a main wall (sheet pile): 136 tonnes of steel sheet piles and 4 tonnes of tierods per 100 meter wall | 167000.00                  | 
+| TCDE                                                                                                                               | 99075.00                   | 
+| Mercedes-Benz GLE (GLE 500 4MATIC)                                                                                                 | 91000.00                   | 
+| Mercedes-Benz S-Class (S 500)                                                                                                      | 85000.00                   | 
+| Mercedes-Benz SL (SL 350)                                                                                                          | 72000.00                   | 
+
+##### 2. What are the industry groups of these products?
+
+```
+SELECT ig.industry_group, 
+    	ROUND(AVG(pe.carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+FROM product_emissions pe
+JOIN industry_groups ig ON pe.industry_group_id = ig.id
+GROUP BY ig.industry_group
+ORDER BY avg_carbon_footprint_pcf DESC
+LIMIT 10;
+```
+
+| industry_group                                   | avg_carbon_footprint_pcf | 
+| -----------------------------------------------: | -----------------------: | 
+| Electrical Equipment and Machinery               | 891050.73                | 
+| Automobiles & Components                         | 35373.48                 | 
+| "Pharmaceuticals, Biotechnology & Life Sciences" | 24162.00                 | 
+| Capital Goods                                    | 7391.77                  | 
+| Materials                                        | 3208.86                  | 
+| "Mining - Iron, Aluminum, Other Metals"          | 2727.00                  | 
+| Energy                                           | 2154.80                  | 
+| Chemicals                                        | 1949.03                  | 
+| Media                                            | 1534.47                  | 
+| Software & Services                              | 1368.94                  | 
+
+##### 3. What are the industries with the highest contribution to carbon emissions?
+
+```
+SELECT ig.industry_group, 
+    	ROUND(AVG(pe.carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+FROM product_emissions pe
+JOIN industry_groups ig ON pe.industry_group_id = ig.id
+GROUP BY ig.industry_group
+ORDER BY avg_carbon_footprint_pcf DESC
+LIMIT 10;
+```
+
+| industry_group                                   | avg_carbon_footprint_pcf | 
+| -----------------------------------------------: | -----------------------: | 
+| Electrical Equipment and Machinery               | 891050.73                | 
+| Automobiles & Components                         | 35373.48                 | 
+| "Pharmaceuticals, Biotechnology & Life Sciences" | 24162.00                 | 
+| Capital Goods                                    | 7391.77                  | 
+| Materials                                        | 3208.86                  | 
+| "Mining - Iron, Aluminum, Other Metals"          | 2727.00                  | 
+| Energy                                           | 2154.80                  | 
+| Chemicals                                        | 1949.03                  | 
+| Media                                            | 1534.47                  | 
+| Software & Services                              | 1368.94                  | 
+
+##### 4. What are the companies with the highest contribution to carbon emissions?
+
+```
+SELECT c.company_name, 
+    	ROUND(AVG(pe.carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+FROM product_emissions pe
+JOIN companies c ON pe.company_id = c.id
+GROUP BY c.company_name
+ORDER BY avg_carbon_footprint_pcf DESC
+LIMIT 10;
+```
+
+| company_name                           | avg_carbon_footprint_pcf | 
+| -------------------------------------: | -----------------------: | 
+| "Gamesa Corporación Tecnológica, S.A." | 2444616.00               | 
+| "Hino Motors, Ltd."                    | 191687.00                | 
+| Arcelor Mittal                         | 83503.50                 | 
+| Weg S/A                                | 53551.67                 | 
+| Daimler AG                             | 43089.19                 | 
+| General Motors Company                 | 34251.75                 | 
+| Volkswagen AG                          | 26238.40                 | 
+| Waters Corporation                     | 24162.00                 | 
+| "Daikin Industries, Ltd."              | 17600.00                 | 
+| CJ Cheiljedang                         | 15802.83                 | 
+
+##### 5. What are the countries with the highest contribution to carbon emissions?
+
+```
+SELECT co.country_name, 
+    	ROUND(AVG(pe.carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+FROM product_emissions pe
+JOIN countries co ON pe.country_id = co.id
+GROUP BY co.country_name
+ORDER BY avg_carbon_footprint_pcf DESC
+LIMIT 10;
+```
+
+| country_name | avg_carbon_footprint_pcf | 
+| -----------: | -----------------------: | 
+| Spain        | 699009.29                | 
+| Luxembourg   | 83503.50                 | 
+| Germany      | 33600.37                 | 
+| Brazil       | 9407.61                  | 
+| South Korea  | 5665.61                  | 
+| Japan        | 4600.26                  | 
+| Netherlands  | 2011.91                  | 
+| India        | 1535.88                  | 
+| USA          | 1332.60                  | 
+| South Africa | 1119.27                  | 
+
+##### 6. What is the trend of carbon footprints (PCFs) over the years?
+
+```
+SELECT year, COUNT(product_name) product_name, SUM(avg_carbon_footprint_pcf) sum_pcf
+FROM (
+	  SELECT year, product_name, 
+			  ROUND(AVG(carbon_footprint_pcf),2) AS avg_carbon_footprint_pcf
+	  FROM product_emissions 
+	  GROUP BY year, product_name
+  	 ) AS tb
+GROUP BY year
+```
+
+| year | product_name | sum_pcf     | 
+| ---: | -----------: | ----------: | 
+| 2013 | 176          | 496005.50   | 
+| 2014 | 186          | 548213.50   | 
+| 2015 | 217          | 10810407.00 | 
+| 2016 | 215          | 1608962.17  | 
+| 2017 | 57           | 224799.67   | 
