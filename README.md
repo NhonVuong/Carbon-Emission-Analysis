@@ -206,3 +206,42 @@ GROUP BY year
 | 2015 | 217          | 10810407.00 | 
 | 2016 | 215          | 1608962.17  | 
 | 2017 | 57           | 224799.67   | 
+
+##### 7. Which industry groups has demonstrated the most notable decrease in carbon footprints (PCFs) over time?
+
+```
+WITH raw_data AS (
+SELECT year,
+	  ig.industry_group,
+	  AVG(pe.carbon_footprint_pcf) AS avg_pcf
+FROM product_emissions pe
+JOIN industry_groups ig ON ig. id = pe. industry_group_id
+GROUP BY year, industry_group
+	)
+SELECT cy.industry_group,
+--		cy.year AS current_year,
+--		cy.avg_pcf AS current_year_avg_pef,
+--		lst_y.avg_pcf AS last_year_avg_pcf,
+		SUM(lst_y.avg_pcf - cy.avg_pcf) AS delta_pcf
+FROM raw_data cy
+LEFT JOIN raw_data lst_y ON cy.year - 1 = lst_y.year AND cy.industry_group = lst_y.industry_group
+GROUP BY industry_group
+HAVING delta_pcf IS NOT NULL
+ORDER BY delta_pcf
+```
+
+| industry_group                                   | delta_pcf   | 
+| -----------------------------------------------: | ----------: | 
+| "Pharmaceuticals, Biotechnology & Life Sciences" | -24079.5000 | 
+| Automobiles & Components                         | -14100.2857 | 
+| Capital Goods                                    | -13973.9667 | 
+| Materials                                        | -7152.8791  | 
+| Software & Services                              | -688.5000   | 
+| Commercial & Professional Services               | -248.7917   | 
+| "Food, Beverage & Tobacco"                       | -49.4820    | 
+| Retailing                                        | 0.8333      | 
+| Telecommunication Services                       | 6.2500      | 
+| Food & Staples Retailing                         | 76.8000     | 
+| Consumer Durables & Apparel                      | 173.5966    | 
+| Technology Hardware & Equipment                  | 265.1054    | 
+| Media                                            | 1808.5833   | 
