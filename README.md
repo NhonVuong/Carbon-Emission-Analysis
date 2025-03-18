@@ -245,3 +245,27 @@ ORDER BY delta_pcf
 | Consumer Durables & Apparel                      | 173.5966    | 
 | Technology Hardware & Equipment                  | 265.1054    | 
 | Media                                            | 1808.5833   | 
+
+##### The products with the highest levels of carbon emissions are typically associated with heavy industry.
+
+* Products with the highest CO2 emissions typically come from steel, chemicals, lithium batteries, and industrial materials.
+* Metal & chemical products have the highest emissions due to energy-intensive production processes.
+* Batteries and electronic components have a large carbon footprint due to lithium, cobalt mining, and complex manufacturing.
+
+
+##### The Following Car Models Are Leading in Carbon Emissions During Production
+
+* The following car models are leading in carbon emissions during production: Land Cruiser Prado, Mercedes-Benz GLA, Mercedes-Benz S-Class, and Mercedes-Benz SL
+* Why Do Cars Have High Emissions?
+    * Manufacturing materials: Steel, aluminum, synthetic plastics, lithium-ion batteries.
+    * Complex production processes: Luxury vehicles require more energy-intensive manufacturing.
+    * Lithium-ion batteries in electric vehicles (EVs): While EVs reduce operational emissions, their production has a high carbon footprint.
+* Luxury cars & SUVs have higher emissions due to their size, manufacturing complexity, and materials.
+
+
+##### One of the leading industries (7th place) is "Pharmaceuticals, Biotechnology & Life Sciences".
+* Data shows that the pharmaceutical and biotechnology industry has significant carbon emissions.
+*  Why Does the Pharmaceutical Industry Have High Emissions?
+    * Pharmaceutical & biotech manufacturing consumes large amounts of energy.
+    * Laboratories use high-power equipment & cooling systems.
+    * The global pharmaceutical supply chain increases emissions from transportation.
